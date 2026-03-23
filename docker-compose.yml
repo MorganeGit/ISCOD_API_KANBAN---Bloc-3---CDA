@@ -1,0 +1,26 @@
+services:
+  app:
+    build: .
+    container_name: visiplus-app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGODB_URI: mongodb://mongo:27017/visiplus
+      JWT_SECRET: your-super-secret-jwt-key-at-least-32-characters-long
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGIN: "*"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    container_name: visiplus-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
